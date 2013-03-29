@@ -12,4 +12,9 @@ describe Puppet::Type.type(:spec) do
     subject[:should_not] = :succeed
     subject[:should_not].should == :succeed
   end
+
+  it 'should accept type' do
+    subject[:type] = :output
+    subject[:type].should == :output
+  end
 end

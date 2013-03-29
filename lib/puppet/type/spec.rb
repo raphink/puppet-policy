@@ -4,9 +4,30 @@ Puppet::Type.newtype(:spec) do
   newparam(:test, :namevar => true) do
   end
 
-  newparam(:should) do
+  newproperty(:should) do
+    def insync?(is)
+      false
+    end
+
+    def sync
+      @resource.provider.run
+    end
   end
 
-  newparam(:should_not) do
+  newproperty(:should_not) do
+    def insync?(is)
+      false
+    end
+
+    def sync
+      @resource.provider.run
+    end
+  end
+
+  newparam(:type) do
+  end
+
+  def sync
+    provider.run(@resource.provider.run)
   end
 end
