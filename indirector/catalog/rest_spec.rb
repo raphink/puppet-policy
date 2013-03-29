@@ -25,7 +25,7 @@ class Puppet::Resource::Catalog::RestSpec < Puppet::Indirector::Code
     spec_dirs = []
     catalog.classes.each do |c|
       class_dir = c.gsub(/:/, '_')
-      class_path = "#{Puppet.settings[:vardir]}/spec/class/#{class_dir}"
+      class_path = "#{Puppet.settings[:libdir]}/spec/class/#{class_dir}"
       spec_dirs << class_path if File.directory? class_path
     end
     # Use something else than stdout/stderr to get reports?
