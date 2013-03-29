@@ -1,0 +1,3 @@
+fixtures:
+  symlinks:
+    "spec": "#{source_dir}"
