@@ -32,7 +32,6 @@ class Puppet::Resource::Catalog::CompilerSpec < Puppet::Indirector::Code
       class_path = File.join(spec_dir, "class/#{class_dir}")
       spec_dirs << class_path if File.directory? class_path
     end
-    # Use something else than stdout/stderr to get reports?
     out = StringIO.new
     unless RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
       raise Puppet::Error, "Unit tests failed:\n#{out.string}"
