@@ -1,12 +1,12 @@
 require 'puppet/node'
 require 'puppet/resource/catalog'
-require 'puppet/indirector/code'
+require 'puppet/indirector/catalog/rest'
 require 'rubygems'
 require 'rspec'
 require 'rspec-puppet/matchers'
 require 'stringio'
 
-class Puppet::Resource::Catalog::RestSpec < Puppet::Indirector::Code
+class Puppet::Resource::Catalog::RestSpec < Puppet::Resource::Catalog::Rest
   def compiler
     @compiler ||= indirection.terminus(:rest)
     #@compiler ||= indirection.terminus(:yaml)

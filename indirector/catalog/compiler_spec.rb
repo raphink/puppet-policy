@@ -1,12 +1,12 @@
 require 'puppet/node'
 require 'puppet/resource/catalog'
-require 'puppet/indirector/code'
+require 'puppet/indirector/catalog/compiler'
 require 'rubygems'
 require 'rspec'
 require 'rspec-puppet/matchers'
 require 'stringio'
 
-class Puppet::Resource::Catalog::CompilerSpec < Puppet::Indirector::Code
+class Puppet::Resource::Catalog::CompilerSpec < Puppet::Resource::Catalog::Compiler
   def compiler
     @compiler ||= indirection.terminus(:compiler)
   end
@@ -39,39 +39,4 @@ class Puppet::Resource::Catalog::CompilerSpec < Puppet::Indirector::Code
     catalog
   end
 
-  private
-  # Definitions copied from compiler terminus as these are private methods
-
-  # Turn our host name into a node object.
-  def find_node(name)
-    begin
-      return nil unless node = Puppet::Node.indirection.find(name)
-    rescue => detail
-      puts detail.backtrace if Puppet[:trace]
-      raise Puppet::Error, "Failed when searching for node #{name}: #{detail}"
-    end
-    node
-  end
-
-  # Extract the node from the request, or use the request
-  # to find the node.
-  def node_from_request(request)
-    if node = request.options[:use_node]
-      return node
-    end
-
-    # We rely on our authorization system to determine whether the connected
-    # node is allowed to compile the catalog's node referenced by key.
-    # By default the REST authorization system makes sure only the connected node
-    # can compile his catalog.
-    # This allows for instance monitoring systems or puppet-load to check several
-    # node's catalog with only one certificate and a modification to auth.conf 
-    # If no key is provided we can only compile the currently connected node.
-    name = request.key || request.node
-    if node = find_node(name)
-      return node
-    end
-
-    raise ArgumentError, "Could not find node '#{name}'; cannot compile"
-  end
 end
