@@ -11,16 +11,16 @@ This module provides new Puppet terminii which allow to evaluate rspec tests on 
 
 In order to install these terminii:
 
-* Copy the files a $RUBYLIB/puppet/indirector/catalog/;
+* Copy the files a `$RUBYLIB/puppet/indirector/catalog/`;
 * Set your $confdir/routes.yaml to use the terminii, for example:
 
-    agent:
-      catalog:
-        terminus: rest_spec
-        cache: yaml
-    master:
-      catalog:
-        terminus: compiler_spec
+        agent:
+          catalog:
+            terminus: rest_spec
+            cache: yaml
+        master:
+          catalog:
+            terminus: compiler_spec
 
 ### `rest_spec` terminus
 
@@ -31,7 +31,7 @@ The `rest_spec` terminus extends the `rest` terminus for catalogs. After retriev
 * `rspec-puppet` matchers are already loaded, so they are available in tests;
 * The catalog is (currently, needs fixing) saved as `/tmp/catalog` and can be loaded in tests with:
 
-    subject { YAML.load_file('/tmp/catalog') }
+        subject { YAML.load_file('/tmp/catalog') }
 
 ### `compiler_spec` terminus
 
@@ -42,7 +42,7 @@ The `compiler_spec` terminus extends the `compiler` terminus for catalogs. After
 * `rspec-puppet` matchers are already loaded, so they are available in tests;
 * The catalog is (currently, needs fixing) saved as `/tmp/catalog` and can be loaded in tests with:
 
-    subject { YAML.load_file('/tmp/catalog') }
+        subject { YAML.load_file('/tmp/catalog') }
 
 
 ## Contributing
