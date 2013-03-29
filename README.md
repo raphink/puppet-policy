@@ -5,6 +5,46 @@
 This module is provided by [Camptocamp](http://www.camptocamp.com/)
 
 
+## Using spec terminii
+
+This module provides new Puppet terminii which allow to evaluate rspec tests on the actual compiled catalog.
+
+In order to install these terminii:
+
+* Copy the files a $RUBYLIB/puppet/indirector/catalog/;
+* Set your $confdir/routes.yaml to use the terminii, for example:
+
+    agent:
+      catalog:
+        terminus: rest_spec
+        cache: yaml
+    master:
+      catalog:
+        terminus: compiler_spec
+
+### `rest_spec` terminus
+
+The `rest_spec` terminus extends the `rest` terminus for catalogs. After retrieving the catalog using the `rest` terminus, it applies rspec tests to it:
+
+* The rspec tests must be located in `:vardir/spec/class`, in sub-directories by class;
+* Only the directories named after classes declared in the catalog will be tested;
+* `rspec-puppet` matchers are already loaded, so they are available in tests;
+* The catalog is (currently, needs fixing) saved as `/tmp/catalog` and can be loaded in tests with:
+
+    subject { YAML.load_file('/tmp/catalog') }
+
+### `compiler_spec` terminus
+
+The `compiler_spec` terminus extends the `compiler` terminus for catalogs. After retrieving the catalog using the `compiler` terminus, it applies rspec tests to it:
+
+* The rspec tests must be located in `:manifestdir/../spec/class`, in sub-directories by class;
+* Only the directories named after classes declared in the catalog will be tested;
+* `rspec-puppet` matchers are already loaded, so they are available in tests;
+* The catalog is (currently, needs fixing) saved as `/tmp/catalog` and can be loaded in tests with:
+
+    subject { YAML.load_file('/tmp/catalog') }
+
+
 ## Contributing
 
 Please report bugs and feature request using [GitHub issue
