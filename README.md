@@ -81,55 +81,38 @@ The `compiler_spec` terminus extends the `compiler` terminus for catalogs. After
 
 Sample output:
 
-    # puppet agent -t
+    # puppet agent -t --environment rpinson
 
     info: Retrieving plugin
     err: Could not retrieve catalog from remote server: Error 400 on SERVER: Unit tests failed:
-    FFFFF
+    .FF.F
     
     Failures:
     
       1) puppet 
-         Failure/Error: it { should contain_package('puppet') }
-         NoMethodError:
-           undefined method `resource' for false:FalseClass
-         # ./spec/class/puppet__client__base/puppet_package_spec.rb:3
+         Failure/Error: it { should contain_package('ppet') }
+           expected that the catalogue would contain Package[ppet]
+         # /home/rpinson/puppetmaster/spec/catalog/class/puppet__client__base/puppet_package_spec.rb:4
     
       2) puppet 
-         Failure/Error: it { should contain_package('ppet') }
-         NoMethodError:
-           undefined method `resource' for false:FalseClass
-         # ./spec/class/puppet__client__base/puppet_package_spec.rb:4
-    
-      3) puppet 
          Failure/Error: it { should include_class('puppet') }
-         NoMethodError:
-           undefined method `classes' for false:FalseClass
-         # ./spec/class/puppet__client__base/puppet_package_spec.rb:5
+           expected that the catalogue would include Class[puppet]
+         # /home/rpinson/puppetmaster/spec/catalog/class/puppet__client__base/puppet_package_spec.rb:5
     
-      4) puppet 
-         Failure/Error: it { should include_class('puppet::client::base') }
-         NoMethodError:
-           undefined method `classes' for false:FalseClass
-         # ./spec/class/puppet__client__base/puppet_package_spec.rb:6
-    
-      5) failure 
+      3) failure 
          Failure/Error: it { 2.should == 5 }
            expected: 5
                 got: 2 (using ==)
-         # ./spec/class/foo.example.com/fail_spec.rb:2
+         # /home/rpinson/puppetmaster/spec/catalog/class/foo.example.com/fail_spec.rb:2
     
-    Finished in 0.0035 seconds
-    5 examples, 5 failures
+    Finished in 0.00312 seconds
+    5 examples, 3 failures
     
     Failed examples:
     
-    rspec ./spec/class/puppet__client__base/puppet_package_spec.rb:3 # puppet 
-    rspec ./spec/class/puppet__client__base/puppet_package_spec.rb:4 # puppet 
-    rspec ./spec/class/puppet__client__base/puppet_package_spec.rb:5 # puppet 
-    rspec ./spec/class/puppet__client__base/puppet_package_spec.rb:6 # puppet 
-    rspec ./spec/class/foo.example.com/fail_spec.rb:2 # failure 
-    
+    rspec /home/rpinson/puppetmaster/spec/catalog/class/puppet__client__base/puppet_package_spec.rb:4 # puppet 
+    rspec /home/rpinson/puppetmaster/spec/catalog/class/puppet__client__base/puppet_package_spec.rb:5 # puppet 
+    rspec /home/rpinson/puppetmaster/spec/catalog/class/foo.example.com/fail_spec.rb:2 # failure 
     notice: Using cached catalog
 
 
