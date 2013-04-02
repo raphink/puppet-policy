@@ -5,6 +5,7 @@ require 'rubygems'
 require 'rspec'
 require 'rspec-puppet/matchers'
 require 'stringio'
+require Puppet.settings[:libdir] + '/spec/catalog'
 
 class Puppet::Resource::Catalog::CompilerSpec < Puppet::Resource::Catalog::Compiler
   def compiler
@@ -21,10 +22,8 @@ class Puppet::Resource::Catalog::CompilerSpec < Puppet::Resource::Catalog::Compi
     RSpec::configure do |c|
        c.include(RSpec::Puppet::ManifestMatchers)
     end
-    # TODO: try to pass the catalog to the examples
-    File.open("/tmp/catalog", 'w') do |out|
-      YAML.dump(catalog, out)
-    end
+    # Send catalog down the rabbit hole
+    PuppetSpec::Catalog.setup(catalog)
     # Test by classes, including $certname
     spec_dirs = []
     catalog.classes.each do |c|
@@ -32,8 +31,9 @@ class Puppet::Resource::Catalog::CompilerSpec < Puppet::Resource::Catalog::Compi
       class_path = File.join(spec_dir, "class/#{class_dir}")
       spec_dirs << class_path if File.directory? class_path
     end
+    # Use something else than stdout/stderr to get reports?
     out = StringIO.new
-    unless RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
+    unless RSpec::Core::Runner::run(["-r#{Puppet.settings[:libdir]}/spec/catalog", spec_dirs], $stderr, out) == 0
       raise Puppet::Error, "Unit tests failed:\n#{out.string}"
     end
     catalog

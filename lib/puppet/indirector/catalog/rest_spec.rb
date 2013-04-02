@@ -28,7 +28,7 @@ class Puppet::Resource::Catalog::RestSpec < Puppet::Resource::Catalog::Rest
       spec_dirs << class_path if File.directory? class_path
     end
     out = StringIO.new
-    unless RSpec::Core::Runner::run(['-I.', "-r#{Puppet.settings[:libdir]}/spec/catalog", spec_dirs], $stderr, out) == 0
+    unless RSpec::Core::Runner::run(["-r#{Puppet.settings[:libdir]}/spec/catalog", spec_dirs], $stderr, out) == 0
       raise Puppet::Error, "Unit tests failed:\n#{out.string}"
     end
     catalog
