@@ -26,23 +26,23 @@ In order to install these terminii:
 
 The `rest_spec` terminus extends the `rest` terminus for catalogs. After retrieving the catalog using the `rest` terminus, it applies rspec tests to it:
 
-* The rspec tests must be located in `:libdir/spec/class` (allowing you to deploy them via `pluginsync`, in sub-directories by class;
+* The rspec tests must be located in `:libdir/spec/catalog/class` (allowing you to deploy them via `pluginsync`, in sub-directories by class;
 * Only the directories named after classes declared in the catalog will be tested;
 * `rspec-puppet` matchers are already loaded, so they are available in tests;
-* The catalog is (currently, needs fixing) saved as `/tmp/catalog` and can be loaded in tests with:
+* The catalog is exported as a shared instance of the PuppetSpec::Catalog class and can be loaded as subject with:
 
-        subject { YAML.load_file('/tmp/catalog') }
+        subject { PuppetSpec::Catalog.instance.catalog }
 
 ### `compiler_spec` terminus
 
 The `compiler_spec` terminus extends the `compiler` terminus for catalogs. After retrieving the catalog using the `compiler` terminus, it applies rspec tests to it:
 
-* The rspec tests must be located in `:manifestdir/../spec/class`, in sub-directories by class;
+* The rspec tests must be located in `:manifestdir/../spec/catalog/class`, in sub-directories by class;
 * Only the directories named after classes declared in the catalog will be tested;
 * `rspec-puppet` matchers are already loaded, so they are available in tests;
-* The catalog is (currently, needs fixing) saved as `/tmp/catalog` and can be loaded in tests with:
+* The catalog is exported as a shared instance of the PuppetSpec::Catalog class and can be loaded as subject with:
 
-        subject { YAML.load_file('/tmp/catalog') }
+        subject { PuppetSpec::Catalog.instance.catalog }
 
 
 ## Using the `spec` type

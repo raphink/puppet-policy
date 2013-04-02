@@ -17,7 +17,7 @@ class Puppet::Resource::Catalog::CompilerSpec < Puppet::Resource::Catalog::Compi
     node = node_from_request(request)
     manifestdir = Puppet.settings.value(:manifestdir, node.environment)
     # We put specs in the parent directory of :manifestdir
-    spec_dir = File.join(manifestdir, '..', 'spec')
+    spec_dir = File.join(manifestdir, '..', 'spec/catalog')
 
     RSpec::configure do |c|
        c.include(RSpec::Puppet::ManifestMatchers)
