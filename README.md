@@ -42,6 +42,32 @@ The `rest_spec` terminus extends the `rest` terminus for catalogs. After retriev
 
         subject { PuppetSpec::Catalog.instance.catalog }
 
+Sample output:
+
+    # puppet agent -t
+    info: Retrieving plugin
+    err: Could not retrieve catalog from remote server: Unit tests failed:
+    F..
+    
+    Failures:
+    
+      1) package 
+         Failure/Error: it { should contain_package('augeas') }
+           expected that the catalogue would contain Package[augeas]
+         # /var/lib/puppet/lib/spec/class/augeas/package_spec.rb:3
+         # /var/lib/puppet/lib/puppet/indirector/catalog/rest_spec.rb:31:in `find'
+    
+    Finished in 0.00092 seconds
+    3 examples, 1 failure
+    
+    Failed examples:
+    
+    rspec /var/lib/puppet/lib/spec/class/augeas/package_spec.rb:3 # package 
+    
+    info: Not using expired catalog for foo.example.com from cache; expired at Tue Apr 02 17:40:21 +0200 2013
+    notice: Using cached catalog
+
+
 ### `compiler_spec` terminus
 
 The `compiler_spec` terminus extends the `compiler` terminus for catalogs. After retrieving the catalog using the `compiler` terminus, it applies rspec tests to it:
@@ -53,6 +79,59 @@ The `compiler_spec` terminus extends the `compiler` terminus for catalogs. After
 
         subject { PuppetSpec::Catalog.instance.catalog }
 
+Sample output:
+
+    # puppet agent -t
+
+    info: Retrieving plugin
+    err: Could not retrieve catalog from remote server: Error 400 on SERVER: Unit tests failed:
+    FFFFF
+    
+    Failures:
+    
+      1) puppet 
+         Failure/Error: it { should contain_package('puppet') }
+         NoMethodError:
+           undefined method `resource' for false:FalseClass
+         # ./spec/class/puppet__client__base/puppet_package_spec.rb:3
+    
+      2) puppet 
+         Failure/Error: it { should contain_package('ppet') }
+         NoMethodError:
+           undefined method `resource' for false:FalseClass
+         # ./spec/class/puppet__client__base/puppet_package_spec.rb:4
+    
+      3) puppet 
+         Failure/Error: it { should include_class('puppet') }
+         NoMethodError:
+           undefined method `classes' for false:FalseClass
+         # ./spec/class/puppet__client__base/puppet_package_spec.rb:5
+    
+      4) puppet 
+         Failure/Error: it { should include_class('puppet::client::base') }
+         NoMethodError:
+           undefined method `classes' for false:FalseClass
+         # ./spec/class/puppet__client__base/puppet_package_spec.rb:6
+    
+      5) failure 
+         Failure/Error: it { 2.should == 5 }
+           expected: 5
+                got: 2 (using ==)
+         # ./spec/class/foo.example.com/fail_spec.rb:2
+    
+    Finished in 0.0035 seconds
+    5 examples, 5 failures
+    
+    Failed examples:
+    
+    rspec ./spec/class/puppet__client__base/puppet_package_spec.rb:3 # puppet 
+    rspec ./spec/class/puppet__client__base/puppet_package_spec.rb:4 # puppet 
+    rspec ./spec/class/puppet__client__base/puppet_package_spec.rb:5 # puppet 
+    rspec ./spec/class/puppet__client__base/puppet_package_spec.rb:6 # puppet 
+    rspec ./spec/class/foo.example.com/fail_spec.rb:2 # failure 
+    
+    notice: Using cached catalog
+
 
 ## Using the functional spec terminus
 
@@ -62,6 +141,20 @@ In order to use it:
 
 * The rspec tests must be located in `:libdir/spec/server/class/test` (currently, it is planned to use class names in the future);
 * `serverspec` matchers are already loaded, so they are available in tests.
+
+
+Sample output:
+
+    # puppet agent  -t
+    info: Retrieving plugin
+    info: Caching catalog for foo.example.com
+    info: Applying configuration version 'raphink/a2c8e0f [+]'
+    ... Applying changes ...
+    notice: Finished catalog run in 59.19 seconds
+    Output: ..
+
+    Finished in 0.05165 seconds
+    2 examples, 0 failures
 
 
 ## Using the `spec` type
