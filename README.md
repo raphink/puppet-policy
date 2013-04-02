@@ -11,7 +11,7 @@ This module provides new Puppet terminii which allow to evaluate rspec tests on 
 
 In order to install these terminii:
 
-* Copy the files a `$RUBYLIB/puppet/indirector/catalog/`;
+* Run Puppet with `pluginsync` on to copy the indirectors;
 * Set your `$confdir/routes.yaml` to use the terminii, for example:
 
         agent:
@@ -21,11 +21,6 @@ In order to install these terminii:
         master:
           catalog:
             terminus: compiler_spec
-
-Note that the terminii can be distributed using `pluginsync`. In order to achieve this:
-
-* Place the the terminii in `lib/puppet/indirector/catalog/` in any module (this one for example);
-* Edit `$confdir/routes.yaml` to use the terminii (do not edit it before the run distributing them terminii).
 
 ### `rest_spec` terminus
 
