@@ -5,14 +5,23 @@
 This module is provided by [Camptocamp](http://www.camptocamp.com/)
 
 
-## Using spec terminii
+## Requirements
 
-This module provides new Puppet terminii which allow to evaluate rspec tests on the actual compiled catalog.
+This module requires the following Ruby libraries:
 
-In order to install these terminii:
+* `rspec`;
+* `rspec-puppet` for catalog tests;
+* `serverspec` for functional tests.
+
+
+## Using catalog spec termini
+
+This module provides new Puppet termini which allow to evaluate rspec tests on the actual compiled catalog.
+
+In order to install these termini:
 
 * Run Puppet with `pluginsync` on to copy the indirectors;
-* Set your `$confdir/routes.yaml` to use the terminii, for example:
+* Set your `$confdir/routes.yaml` to use the termini, for example:
 
         agent:
           catalog:
@@ -43,6 +52,16 @@ The `compiler_spec` terminus extends the `compiler` terminus for catalogs. After
 * The catalog is exported as a shared instance of the PuppetSpec::Catalog class and can be loaded as subject with:
 
         subject { PuppetSpec::Catalog.instance.catalog }
+
+
+## Using the functional spec terminus
+
+After the catalog has been tested and applied, you might want to run functional tests against the machine. This module provides a `rest_spec` terminus for the report indirector which executes rspec tests using the `serverspec` matchers.
+
+In order to use it:
+
+* The rspec tests must be located in `:libdir/spec/server/class/test` (currently, it is planned to use class names in the future);
+* `serverspec` matchers are already loaded, so they are available in tests.
 
 
 ## Using the `spec` type
