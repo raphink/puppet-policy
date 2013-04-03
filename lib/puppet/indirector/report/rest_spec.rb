@@ -43,13 +43,19 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
     #  spec_dirs << class_path if File.directory? class_path
     #end                                                        
     out = StringIO.new                                       
-    unless RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
-      # Add logs to report
+    if RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
+      request.instance << Puppet::Util::Log.new(
+        :message => out.string,
+        :level   => :notice
+      )
+    else
       request.instance << Puppet::Util::Log.new(
         :message => out.string,
         :level   => :err
       )
     end
+    # Reprocess final status
+    request.instance.finalize_report
 
     processor.save(request)                    
   end                                                                                     
