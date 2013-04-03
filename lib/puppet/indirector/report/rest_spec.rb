@@ -36,6 +36,7 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
     spec_dirs = []
     spec_dirs = ["#{Puppet.settings[:libdir]}/spec/server/class/test"]
     # TODO: get classes for current node
+    # use request.node?
     #classes.each do |c|
     #  class_dir = c.gsub(/:/, '_')
     #  class_path = "#{Puppet.settings[:libdir]}/spec/server/class/#{class_dir}"
@@ -43,7 +44,11 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
     #end                                                        
     out = StringIO.new                                       
     unless RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
-      raise Puppet::Error, "Unit tests failed:\n#{out.string}"
+      # Add logs to report
+      request.instance << Puppet::Util::Log.new(
+        :message => out.string,
+        :level   => :err
+      )
     end
 
     processor.save(request)                    
