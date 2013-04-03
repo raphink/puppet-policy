@@ -1,3 +1,5 @@
+require 'open3'
+
 module PuppetSpec
   module ExecHelper
     def ssh_exec(cmd, opts={})
