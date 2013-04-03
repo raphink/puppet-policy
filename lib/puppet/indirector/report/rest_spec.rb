@@ -3,7 +3,6 @@ require 'rubygems'
 require 'rspec'
 require 'serverspec' 
 require 'stringio'
-require 'open3'
 require Puppet.settings[:libdir] + '/spec/exechelper.rb' 
 require 'facter' 
   
