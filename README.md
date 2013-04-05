@@ -11,7 +11,7 @@ This module requires the following Ruby libraries:
 
 * `rspec`;
 * `rspec-puppet` for catalog tests;
-* `serverspec` for functional tests.
+* `serverspec` (&gt;= 0.1.7) for functional tests.
 
 
 ## Using catalog spec termini

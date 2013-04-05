@@ -29,7 +29,7 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
 
     RSpec.configure do |c|
       c.include(helper_class)
-      c.include(PuppetSpec::ExecHelper)
+      c.include(Serverspec::ExecHelper)
     end
       
     # Test by classes, including $certname                              
