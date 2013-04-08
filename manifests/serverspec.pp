@@ -43,6 +43,9 @@ define spec::serverspec (
     default => $filename,
   }
 
+  # $settings::vardir returns the MASTER's :vardir, not the agent's
+  # We might have to deploy a fact to get the client's :vardir,
+  # or write a type/provider
   file { "${settings::vardir}/spec/server/class/${classname}/${_filename}_spec.rb":
     ensure  => $ensure,
     content => $content,
