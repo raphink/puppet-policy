@@ -122,7 +122,7 @@ After the catalog has been tested and applied, you might want to run functional 
 
 In order to use it:
 
-* The rspec tests must be located in `:libdir/spec/server/class/test` (currently, it is planned to use class names in the future);
+* The rspec tests must be located in `:libdir/spec/server/class/:certname` (currently, it is planned to use class names in the future);
 * `serverspec` matchers are already loaded, so they are available in tests.
 
 
@@ -142,13 +142,13 @@ Sample output:
       1) augeas 
          Failure/Error: it { should be_installed }
            expected "augeas" to be installed
-         # /var/lib/puppet/lib/spec/server/class/test/package_spec.rb:2
+         # /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:2
          # /var/lib/puppet/lib/puppet/indirector/report/rest_spec.rb:45:in `save'
     
       2) /usr/share/augeas/lenses/dist 
          Failure/Error: it { should be_file }
            expected "/usr/share/augeas/lenses/dist" to be file
-         # /var/lib/puppet/lib/spec/server/class/test/package_spec.rb:6
+         # /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:6
          # /var/lib/puppet/lib/puppet/indirector/report/rest_spec.rb:45:in `save'
     
     Finished in 0.06033 seconds
@@ -156,8 +156,8 @@ Sample output:
     
     Failed examples:
     
-    rspec /var/lib/puppet/lib/spec/server/class/test/package_spec.rb:2 # augeas 
-    rspec /var/lib/puppet/lib/spec/server/class/test/package_spec.rb:6 # /usr/share/augeas/lenses/dist 
+    rspec /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:2 # augeas 
+    rspec /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:6 # /usr/share/augeas/lenses/dist 
 
 
 ## Using the `spec` type
