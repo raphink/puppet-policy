@@ -44,15 +44,15 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
       
     # Test by classes, including $certname                              
     spec_dirs = []
-    host_dir = "#{Puppet.settings[:libdir]}/spec/server/class/#{request.instance.host}"
-    spec_dirs << host_dir if File.directory? host_dir
-    # TODO: get classes for current node
-    # use request.node or request.instance.host?
-    #classes.each do |c|
-    #  class_dir = c.gsub(/:/, '_')
-    #  class_path = "#{Puppet.settings[:libdir]}/spec/server/class/#{class_dir}"
-    #  spec_dirs << class_path if File.directory? class_path
-    #end                                                        
+    # Classes cannot be acquired from request.node, get them from Puppet[:classfile]
+    if File.exists? Puppet[:classfile]
+      classes = open(Puppet[:classfile]).map { |line| line.chomp }
+      classes.each do |c|
+        class_dir = c.gsub(/:/, '_')
+        class_path = "#{Puppet.settings[:libdir]}/spec/server/class/#{class_dir}"
+        spec_dirs << class_path if File.directory? class_path
+      end
+    end
     out = StringIO.new                                       
     if RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
       request.instance << Puppet::Util::Log.new(
