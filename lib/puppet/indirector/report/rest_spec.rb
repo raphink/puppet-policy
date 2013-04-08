@@ -16,20 +16,20 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
   def save(request)
     case Facter.value(:osfamily)                           
       when 'Debian'
-        helper_class = Serverspec::DebianHelper
+        helper_class = Serverspec::Helper::Debian
       when 'RedHat'        
-        helper_class = Serverspec::RedHatHelper  
+        helper_class = Serverspec::Helper::RedHat  
       when 'Gentoo'
-        helper_class = Serverspec::GentooHelper     
+        helper_class = Serverspec::Helper::Gentoo     
       when 'Solaris'
-        helper_class = Serverspec::SolarisHelper
+        helper_class = Serverspec::Helper::Solaris
       else
         raise Puppet::Error, "Could not determine a helper to use for functional tests for OS family #{Facter.value(:osfamily)}"
     end
 
     RSpec.configure do |c|
       c.include(helper_class)
-      c.include(Serverspec::ExecHelper)
+      c.include(Serverspec::Helper::Puppet)
     end
       
     # Test by classes, including $certname                              

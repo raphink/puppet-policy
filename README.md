@@ -10,8 +10,8 @@ This module is provided by [Camptocamp](http://www.camptocamp.com/)
 This module requires the following Ruby libraries:
 
 * `rspec`;
-* `rspec-puppet` for catalog tests;
-* `serverspec` (&gt;= 0.1.7) for functional tests.
+* [`rspec-puppet`](https://github.com/rodjek/rspec-puppet) for catalog tests;
+* [`serverspec`](https://github.com/mizzy/serverspec) (&gt;= 0.2.1) for functional tests.
 
 
 ## Using catalog spec termini
