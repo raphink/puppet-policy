@@ -12,7 +12,7 @@ define spec::serverspec (
     fail 'You must provide $content or $source'
   }
   $_filename = $filename ? {
-    ''      => $fname = regsubst($name, "\W", "_", "G"),
+    ''      => regsubst($name, "\W", "_", "G"),
     default => $filename,
   }
 
