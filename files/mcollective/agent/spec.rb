@@ -40,16 +40,16 @@ module MCollective
           reply.fail! e.to_s
         end
 
-        helperclass = nil
+        helper_class = nil
         case Facter.value(:osfamily)
           when 'Debian'
-            helperclass = Serverspec::Helper::Debian
+            helper_class = Serverspec::Helper::Debian
           when 'RedHat'
-            helperclass = Serverspec::Helper::RedHat
+            helper_class = Serverspec::Helper::RedHat
           when 'Gentoo'
-            helperclass = Serverspec::Helper::Gentoo
+            helper_class = Serverspec::Helper::Gentoo
           when 'Solaris'
-            helperclass = Serverspec::Helper::Solaris
+            helper_class = Serverspec::Helper::Solaris
         end
 
         # Test by classes, including $certname
@@ -65,6 +65,12 @@ module MCollective
             end
           end
         end
+
+        RSpec.configure do |c|
+          c.include(helper_class)
+          c.include(Serverspec::Helper::Exec)
+        end
+
         out = StringIO.new                                       
         if RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
           reply[:passed] = true
