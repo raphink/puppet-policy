@@ -49,8 +49,10 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
       classes = open(Puppet[:classfile]).map { |line| line.chomp }
       classes.each do |c|
         class_dir = c.gsub(/:/, '_')
-        class_path = "#{Puppet.settings[:libdir]}/spec/server/class/#{class_dir}"
-        spec_dirs << class_path if File.directory? class_path
+        [:libdir, :vardir].each do |d|
+          class_path = "#{d}/spec/server/class/#{class_dir}"
+          spec_dirs << class_path if File.directory? class_path
+        end
       end
     end
     out = StringIO.new                                       

@@ -122,7 +122,7 @@ After the catalog has been tested and applied, you might want to run functional 
 
 In order to use it:
 
-* The rspec tests must be located in `:libdir/spec/server/class` (allowing you to deploy them via `pluginsync`), in sub-directories by class;
+* The rspec tests must be located in `:libdir/spec/server/class` (allowing you to deploy them via `pluginsync`) or `:vardir/spec/server/class` (tests can be deployed using the `spec::serverspec` define), in sub-directories by class;
 * `serverspec` matchers are already loaded, so they are available in tests.
 
 
