@@ -16,7 +16,7 @@ define spec::serverspec (
     default => $filename,
   }
 
-  file { "${settings::vardir}/spec/server/class/${classname}/${_filename}":
+  file { "${settings::vardir}/spec/server/class/${classname}/${_filename}_spec.rb":
     ensure  => $ensure,
     content => $content,
     source  => $source,
