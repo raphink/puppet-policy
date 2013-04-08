@@ -50,7 +50,7 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
       classes.each do |c|
         class_dir = c.gsub(/:/, '_')
         [:libdir, :vardir].each do |d|
-          class_path = "#{d}/spec/server/class/#{class_dir}"
+          class_path = "#{Puppet.settings[d]}/spec/server/class/#{class_dir}"
           spec_dirs << class_path if File.directory? class_path
         end
       end
