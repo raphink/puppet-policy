@@ -226,7 +226,7 @@ This module provides an MCollective agent in `files/mcollective/agent`. This age
 
 Using the `check` action:
 
-    $ mco rpc spec check --arg "action=running" --arg "values=ssh" 
+    $ mco rpc spec check action=running values=ssh
     Discovering hosts using the mc method for 2 second(s) .... 1
     
      * [ ============================================================> ] 1 / 1
@@ -246,7 +246,6 @@ Using the `run` action:
     
      * [ ============================================================> ] 1 / 1
     
-    
     wrk4                                     
        Output: F
                
@@ -254,21 +253,20 @@ Using the `run` action:
                
                  1) abc 
                     Failure/Error: it { should be_running }
-                    NameError:
-                      undefined local variable or method `backend' for #<RSpec::Matchers::DSL::Matcher:0x7f75e8528220>
+                      expected "abc" to be running
                     # /var/lib/puppet/spec/server/class/wrk4.wrk.cby.camptocamp.com/my_test_spec.rb:3
-                    # /usr/share/mcollective/plugins/mcollective/agent/spec.rb:69:in `run_action'
+                    # /usr/share/mcollective/plugins/mcollective/agent/spec.rb:75:in `run_action'
                
-               Finished in 0.00089 seconds
+               Finished in 0.00926 seconds
                1 example, 1 failure
                
                Failed examples:
                
                rspec /var/lib/puppet/spec/server/class/wrk4.wrk.cby.camptocamp.com/my_test_spec.rb:3 # abc 
        Passed: false
-    
-    
-    Finished processing 1 / 1 hosts in 369.35 ms
+
+
+    Finished processing 1 / 1 hosts in 316.46 ms
 
 
 ## Contributing
