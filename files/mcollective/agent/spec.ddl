@@ -29,3 +29,15 @@ action 'check', :description => "Run a check with the serverspec library" do
            :description => "Whether the checked passed",
            :display_as => "Passed"
 end
+
+action 'run', :description => "Run Puppet-spec tests" do
+    display :always
+
+    output :passed,
+           :description => "Whether the tests passed",
+           :display_as => "Passed"
+
+    output :output,
+           :description => "Output of tests",
+           :display_as => "Output"
+end
