@@ -160,16 +160,6 @@ Sample output:
     rspec /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:6 # /usr/share/augeas/lenses/dist 
 
 
-## Using the `spec` type
-
-
-This module provides a `spec` type and associated providers. The goal of this type is to achieve functional tests.
-
-### The `exec` provider
-
-The `exec` provider executes a command and evaluates assertions against either its output or exit status.
-
-
 ## Contributing
 
 Please report bugs and feature request using [GitHub issue
