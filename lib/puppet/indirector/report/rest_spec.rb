@@ -2,8 +2,8 @@ require 'puppet/indirector/report/rest'
 require 'rubygems'
 require 'rspec'
 require 'serverspec' 
+require 'serverspec/backend/puppet'
 require 'stringio'
-require Puppet.settings[:libdir] + '/spec/exechelper.rb' 
 require 'facter' 
   
 class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest 
