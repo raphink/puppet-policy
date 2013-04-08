@@ -160,6 +160,117 @@ Sample output:
     rspec /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:6 # /usr/share/augeas/lenses/dist 
 
 
+## Using the MCollective agent
+
+This module provides an MCollective agent in `files/mcollective/agent`. This agent currently has two actions:
+
+### Documentation
+
+    $ mco plugin doc spec
+    RSpec tests
+    ===========
+    
+    RSpec tests
+    
+          Author: Raphaël Pinson
+         Version: 0.1
+         License: GPLv3
+         Timeout: 60
+       Home Page: 
+    
+    ACTIONS:
+    ========
+       check, run
+    
+       check action:
+       -------------
+           Run a check with the serverspec library
+    
+           INPUT:
+               action:
+                  Description: 
+                       Prompt: Action to check
+                         Type: string
+                   Validation: ^\S+$
+                       Length: 50
+    
+               values:
+                  Description: 
+                       Prompt: Values to check
+                         Type: string
+                   Validation: ^\S+$
+                       Length: 100
+    
+    
+           OUTPUT:
+               passed:
+                  Description: Whether the checked passed
+                   Display As: Passed
+    
+       run action:
+       -----------
+           Run Puppet-spec tests
+    
+           INPUT:
+    
+           OUTPUT:
+               output:
+                  Description: Output of tests
+                   Display As: Output
+    
+               passed:
+                  Description: Whether the tests passed
+                   Display As: Passed
+
+### Examples
+
+Using the `check` action:
+
+    $ mco rpc spec check --arg "action=running" --arg "values=ssh" 
+    Discovering hosts using the mc method for 2 second(s) .... 1
+    
+     * [ ============================================================> ] 1 / 1
+    
+    
+    wrk4                                     
+       Passed: true
+
+    
+    Finished processing 1 / 1 hosts in 373.44 ms
+
+
+Using the `run` action:
+
+    $ mco rpc spec run 
+    Discovering hosts using the mc method for 2 second(s) .... 1
+    
+     * [ ============================================================> ] 1 / 1
+    
+    
+    wrk4                                     
+       Output: F
+               
+               Failures:
+               
+                 1) abc 
+                    Failure/Error: it { should be_running }
+                    NameError:
+                      undefined local variable or method `backend' for #<RSpec::Matchers::DSL::Matcher:0x7f75e8528220>
+                    # /var/lib/puppet/spec/server/class/wrk4.wrk.cby.camptocamp.com/my_test_spec.rb:3
+                    # /usr/share/mcollective/plugins/mcollective/agent/spec.rb:69:in `run_action'
+               
+               Finished in 0.00089 seconds
+               1 example, 1 failure
+               
+               Failed examples:
+               
+               rspec /var/lib/puppet/spec/server/class/wrk4.wrk.cby.camptocamp.com/my_test_spec.rb:3 # abc 
+       Passed: false
+    
+    
+    Finished processing 1 / 1 hosts in 369.35 ms
+
+
 ## Contributing
 
 Please report bugs and feature request using [GitHub issue
