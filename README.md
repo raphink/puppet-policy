@@ -254,7 +254,7 @@ Using the `run` action:
                  1) abc 
                     Failure/Error: it { should be_running }
                       expected "abc" to be running
-                    # /var/lib/puppet/spec/server/class/wrk4.wrk.cby.camptocamp.com/my_test_spec.rb:3
+                    # /var/lib/puppet/spec/server/class/wrk4.example.com/my_test_spec.rb:3
                     # /usr/share/mcollective/plugins/mcollective/agent/spec.rb:75:in `run_action'
                
                Finished in 0.00926 seconds
@@ -262,7 +262,7 @@ Using the `run` action:
                
                Failed examples:
                
-               rspec /var/lib/puppet/spec/server/class/wrk4.wrk.cby.camptocamp.com/my_test_spec.rb:3 # abc 
+               rspec /var/lib/puppet/spec/server/class/wrk4.example.com/my_test_spec.rb:3 # abc 
        Passed: false
 
 
