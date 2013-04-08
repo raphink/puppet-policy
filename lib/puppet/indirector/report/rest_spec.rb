@@ -5,6 +5,13 @@ require 'serverspec'
 require 'serverspec/backend/puppet'
 require 'stringio'
 require 'facter' 
+
+
+module PuppetSpecReport
+  def status= (status)
+    @status = status
+  end
+end
   
 class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest 
   desc "Run functional tests then get server report over HTTP via REST." 
@@ -31,6 +38,9 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
       c.include(helper_class)
       c.include(Serverspec::Helper::Puppet)
     end
+
+    # Extend report
+    request.instance.extend(PuppetSpecReport)
       
     # Test by classes, including $certname                              
     spec_dirs = []
@@ -54,9 +64,8 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
         :message => out.string,
         :level   => :err
       )
+      request.instance.status = 'failed'
     end
-    # Reprocess final status
-    request.instance.finalize_report
 
     processor.save(request)                    
   end                                                                                     
