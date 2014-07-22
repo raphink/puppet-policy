@@ -35,7 +35,7 @@ In order to install these termini:
 
 The `rest_spec` terminus extends the `rest` terminus for catalogs. After retrieving the catalog using the `rest` terminus, it applies rspec tests to it:
 
-* The rspec tests must be located in `:libdir/spec/catalog/class` (allowing you to deploy them via `pluginsync`), in sub-directories by class;
+* The rspec tests must be located in `:libdir/spec/catalog/class` (allowing you to deploy them via `pluginsync` by putting them in the module's `lib/spec/catalog/class` directory), in sub-directories by class;
 * Only the directories named after classes declared in the catalog will be tested;
 * `rspec-puppet` matchers are already loaded, so they are available in tests;
 * The catalog is exported as a shared instance of the PuppetSpec::Catalog class and can be loaded as subject with:
