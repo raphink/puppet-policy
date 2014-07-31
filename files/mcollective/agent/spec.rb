@@ -3,25 +3,13 @@ module MCollective
     class Spec < RPC::Agent
       action 'check' do
         begin
-          require 'serverspec'
+          require 'specinfra'
           require 'facter'
         rescue Exception => e
           reply.fail! e.to_s
         end
 
-        commands = nil
-        case Facter.value(:osfamily)
-          when 'Debian'
-            commands = Serverspec::Commands::Debian.new
-          when 'RedHat'
-            commands = Serverspec::Commands::RedHat.new
-          when 'Gentoo'
-            commands = Serverspec::Commands::Gentoo.new
-          when 'Solaris'
-            commands = Serverspec::Commands::Solaris.new
-        end
-
-        backend = Serverspec::Backend::Exec.new(commands)
+        backend = SpecInfra::Helper::Backend.backend_for(:exec)
 
         if backend.send("check_#{request[:action]}", request[:values])
           reply[:passed] = true
@@ -43,13 +31,13 @@ module MCollective
         helper_class = nil
         case Facter.value(:osfamily)
           when 'Debian'
-            helper_class = Serverspec::Helper::Debian
+            helper_class = SpecInfra::Helper::Debian
           when 'RedHat'
-            helper_class = Serverspec::Helper::RedHat
+            helper_class = SpecInfra::Helper::RedHat
           when 'Gentoo'
-            helper_class = Serverspec::Helper::Gentoo
+            helper_class = SpecInfra::Helper::Gentoo
           when 'Solaris'
-            helper_class = Serverspec::Helper::Solaris
+            helper_class = SpecInfra::Helper::Solaris
         end
 
         # Test by classes, including $certname
