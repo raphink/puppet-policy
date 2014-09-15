@@ -11,7 +11,8 @@ module MCollective
 
         backend = SpecInfra::Helper::Backend.backend_for(:exec)
 
-        if backend.send("check_#{request[:action]}", request[:values])
+        values = request[:values].split(",").map { |v| v == 'nil' ? nil : v }
+        if backend.send("check_#{request[:action]}", *values)
           reply[:passed] = true
         else
           reply[:passed] = false
