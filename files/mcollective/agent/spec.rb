@@ -1,9 +1,12 @@
+require 'serverspec'
+include SpecInfra::Helper::DetectOS
+include SpecInfra::Helper::Exec
+
 module MCollective
   module Agent
     class Spec < RPC::Agent
       action 'check' do
         begin
-          require 'specinfra'
           require 'facter'
         rescue Exception => e
           reply.fail! e.to_s
@@ -21,10 +24,10 @@ module MCollective
 
       action 'run' do
         begin
-          require 'serverspec'
           require 'facter'
           require 'rspec'
           require 'puppet'
+
         rescue Exception => e
           reply.fail! e.to_s
         end
@@ -32,19 +35,16 @@ module MCollective
         # Test by classes, including $certname
         spec_dirs = []
         # Classes cannot be acquired from request.node, get them from Puppet[:classfile]
-        if File.exists? Puppet[:classfile]
-          classes = open(Puppet[:classfile]).map { |line| line.chomp }
+        if File.exists? ::Puppet[:classfile]
+          classes = open(::Puppet[:classfile]).map { |line| line.chomp }
           classes.each do |c|
             class_dir = c.gsub(/:/, '_')
             [:libdir, :vardir].each do |d|
-              class_path = "#{Puppet.settings[d]}/spec/server/class/#{class_dir}"
+              class_path = "#{::Puppet.settings[d]}/spec/server/class/#{class_dir}"
               spec_dirs << class_path if File.directory? class_path
             end
           end
         end
-
-        include SpecInfra::Helper::DetectOS
-        include SpecInfra::Helper::Exec
 
         out = StringIO.new                                       
         if RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
