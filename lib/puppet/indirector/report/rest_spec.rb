@@ -11,6 +11,9 @@ module PuppetSpecReport
     @status = status
   end
 end
+
+include SpecInfra::Helper::DetectOS
+include SpecInfra::Helper::Exec
   
 class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest 
   desc "Run functional tests then get server report over HTTP via REST." 
@@ -20,24 +23,6 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
   end                                                 
 
   def save(request)
-    case Facter.value(:osfamily)                           
-      when 'Debian'
-        helper_class = Serverspec::Helper::Debian
-      when 'RedHat'        
-        helper_class = Serverspec::Helper::RedHat  
-      when 'Gentoo'
-        helper_class = Serverspec::Helper::Gentoo     
-      when 'Solaris'
-        helper_class = Serverspec::Helper::Solaris
-      else
-        raise Puppet::Error, "Could not determine a helper to use for functional tests for OS family #{Facter.value(:osfamily)}"
-    end
-
-    RSpec.configure do |c|
-      c.include(helper_class)
-      c.include(Serverspec::Helper::Exec)
-    end
-
     # Extend report
     request.instance.extend(PuppetSpecReport)
       
