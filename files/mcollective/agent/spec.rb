@@ -29,18 +29,6 @@ module MCollective
           reply.fail! e.to_s
         end
 
-        helper_class = nil
-        case Facter.value(:osfamily)
-          when 'Debian'
-            helper_class = SpecInfra::Helper::Debian
-          when 'RedHat'
-            helper_class = SpecInfra::Helper::RedHat
-          when 'Gentoo'
-            helper_class = SpecInfra::Helper::Gentoo
-          when 'Solaris'
-            helper_class = SpecInfra::Helper::Solaris
-        end
-
         # Test by classes, including $certname
         spec_dirs = []
         # Classes cannot be acquired from request.node, get them from Puppet[:classfile]
@@ -55,10 +43,8 @@ module MCollective
           end
         end
 
-        RSpec.configure do |c|
-          c.include(helper_class)
-          c.include(Serverspec::Helper::Exec)
-        end
+        include SpecInfra::Helper::DetectOS
+        include SpecInfra::Helper::Exec
 
         out = StringIO.new                                       
         if RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
