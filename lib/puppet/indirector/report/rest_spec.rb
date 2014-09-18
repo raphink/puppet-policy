@@ -2,7 +2,6 @@ require 'puppet/indirector/report/rest'
 require 'rubygems'
 require 'rspec'
 require 'serverspec' 
-require 'serverspec/backend/puppet'
 require 'stringio'
 require 'facter' 
 
