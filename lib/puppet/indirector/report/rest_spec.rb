@@ -35,7 +35,7 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
 
     RSpec.configure do |c|
       c.include(helper_class)
-      c.include(Serverspec::Helper::Puppet)
+      c.include(Serverspec::Helper::Exec)
     end
 
     # Extend report
