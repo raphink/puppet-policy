@@ -165,7 +165,12 @@ Sample output:
     rspec /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:6 # /usr/share/augeas/lenses/dist 
 
 
-This indirector will automatically generate serverspec tests from the catalog for known resource types, making the catalog self-asserting.
+This indirector will automatically generate serverspec tests from the catalog for known resource types, making the catalog self-asserting. Currently, it supports the following resource types:
+
+* Package
+* Service
+* File
+* User
 
 
 ## Using the MCollective agent
