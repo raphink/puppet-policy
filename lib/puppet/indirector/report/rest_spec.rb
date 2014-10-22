@@ -44,10 +44,6 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
   end
 
   def save(request)
-    resources = Puppet::Resource::Catalog.indirection.find(request.instance.host).resources
-
-    spec_dir = File.join(Puppet[:vardir], 'spec')
-
 
     # TODO: These will become plugins in the near future
     auto_spec 'Package' do |p|
@@ -99,7 +95,10 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
     end
 
     # Generate serverspec files
-    gen_auto_spec_files(resources, spec_dir)
+    # TODO: Check that we get the catalog from cache
+    resources = Puppet::Resource::Catalog.indirection.find(request.instance.host).resources
+    auto_spec_dir = File.join(Puppet[:vardir], 'spec')
+    gen_auto_spec_files(resources, auto_spec_dir)
 
     # Extend report
     request.instance.extend(PuppetSpecReport)
@@ -109,8 +108,21 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
       c.backend = :exec
     end
 
+    spec_dirs = [auto_spec_dir]
+    # Classes cannot be acquired from request.node, get them from Puppet[:classfile]
+    if File.exists? Puppet[:classfile]
+      classes = open(Puppet[:classfile]).map { |line| line.chomp }
+      classes.each do |c|
+        class_dir = c.gsub(/:/, '_')
+        [:libdir, :vardir].each do |d|
+          class_path = "#{Puppet.settings[d]}/spec/server/class/#{class_dir}"
+          spec_dirs << class_path if File.directory? class_path
+        end
+      end
+    end
+
     out = StringIO.new                                       
-    if RSpec::Core::Runner::run([spec_dir], $stderr, out) == 0
+    if RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
       request.instance << Puppet::Util::Log.new(
         :message => out.string,
         :level   => :notice
