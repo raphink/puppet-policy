@@ -8,5 +8,5 @@
   "description": "Evaluate assertions during a Puppet run",
   "project_page": "https://github.com/raphink/puppet-spec",
   "tags": ["testing", "rspec", "serverspec", "mcollective", "policy", "report", "catalog"],
-  "dependencies": [],
+  "dependencies": []
 }
