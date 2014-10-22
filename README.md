@@ -2,8 +2,6 @@
 
 **Evaluate assertions during a Puppet run**
 
-This module is provided by [Camptocamp](http://www.camptocamp.com/)
-
 
 ## Requirements
 
@@ -285,15 +283,15 @@ Using the `run` action:
 ## Contributing
 
 Please report bugs and feature request using [GitHub issue
-tracker](https://github.com/camptocamp/puppet-spec/issues).
+tracker](https://github.com/raphink/puppet-spec/issues).
 
 For pull requests, it is very much appreciated to check your Puppet manifest
-with [puppet-lint](https://github.com/camptocamp/puppet-spec/issues) to follow the recommended Puppet style guidelines from the
+with [puppet-lint](https://github.com/raphink/puppet-spec/issues) to follow the recommended Puppet style guidelines from the
 [Puppet Labs style guide](http://docs.puppetlabs.com/guides/style_guide.html).
 
 ## License
 
-Copyright (c) 2013 <mailto:puppet@camptocamp.com> All rights reserved.
+Copyright (c) 2013-2014 Raphaël Pinson
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
