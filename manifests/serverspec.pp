@@ -1,6 +1,6 @@
 # Definition: spec::serverspec
 #
-# Deploy an rspec file to :vardir/spec/server/class/
+# Deploy an rspec file to :vardir/spec/server
 #
 # Parameters:
 #   ['ensure']    - Whether the test should be present or absent
@@ -32,6 +32,8 @@ define spec::serverspec (
   $content = undef,
   $source = undef,
 ) {
+  require ::spec
+
   if ($content and $source) {
     fail 'You must provide either $content or $source, not both'
   }
@@ -43,10 +45,7 @@ define spec::serverspec (
     default => $filename,
   }
 
-  # $settings::vardir returns the MASTER's :vardir, not the agent's
-  # We might have to deploy a fact to get the client's :vardir,
-  # or write a type/provider
-  file { "${settings::vardir}/spec/server/class/${classname}/${_filename}_spec.rb":
+  file { "${::spec::serverspec_dir}/${_filename}_spec.rb":
     ensure  => $ensure,
     content => $content,
     source  => $source,

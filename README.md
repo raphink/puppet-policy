@@ -123,7 +123,7 @@ After the catalog has been tested and applied, you might want to run functional 
 
 In order to use it:
 
-* The rspec tests must be located in `:libdir/spec/server/class` (allowing you to deploy them via `pluginsync`) or `:vardir/spec/server/class` (tests can be deployed using the `spec::serverspec` define), in sub-directories by class;
+* The rspec tests must be located in `:vardir/spec/server` (tests can be deployed using the `spec::serverspec` define);
 * `serverspec` matchers are already loaded, so they are available in tests.
 
 To activate the terminus, you need set it in `$confdir/routes.yaml`:
@@ -131,6 +131,13 @@ To activate the terminus, you need set it in `$confdir/routes.yaml`:
     agent:
       report:
         terminus: rest_spec
+
+This indirector will automatically generate serverspec tests from the catalog for known resource types, making the catalog self-asserting. Currently, it supports the following resource types:
+
+* Package
+* Service
+* File
+* User
 
 Sample output:
 
@@ -165,13 +172,6 @@ Sample output:
     rspec /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:2 # augeas 
     rspec /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:6 # /usr/share/augeas/lenses/dist 
 
-
-This indirector will automatically generate serverspec tests from the catalog for known resource types, making the catalog self-asserting. Currently, it supports the following resource types:
-
-* Package
-* Service
-* File
-* User
 
 
 ## Using the MCollective agent
