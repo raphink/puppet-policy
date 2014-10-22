@@ -1,6 +1,6 @@
 {
   "name": "raphink-spec",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "source": "https://github.com/raphink/puppet-spec",
   "author": "Raphael Pinson",
   "license": "GNU GPLv3",

@@ -1,3 +1,9 @@
+## 0.3.0
+### Changes
+
+* Simplify report terminus by putting everything in :vardir/spec/server
+* Add a new "spec" class to setup directories
+
 ## 0.2.1
 ### Changes
 
