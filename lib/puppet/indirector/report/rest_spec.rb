@@ -11,9 +11,6 @@ module PuppetSpecReport
     @status = status
   end
 end
-
-include SpecInfra::Helper::DetectOS
-include SpecInfra::Helper::Exec
   
 class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest 
   desc "Run functional tests then get server report over HTTP via REST." 
@@ -38,6 +35,10 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
           spec_dirs << class_path if File.directory? class_path
         end
       end
+
+    # Specinfra gets its default configuration from RSpec
+    RSpec.configure do |c|
+      c.backend = :exec
     end
     out = StringIO.new                                       
     if RSpec::Core::Runner::run(spec_dirs, $stderr, out) == 0
