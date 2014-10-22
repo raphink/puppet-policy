@@ -11,7 +11,7 @@ This module requires the following Ruby libraries:
 
 * `rspec`;
 * [`rspec-puppet`](https://github.com/rodjek/rspec-puppet) for catalog tests;
-* [`serverspec`](https://github.com/mizzy/serverspec) (&gt;= 0.2.1) for functional tests.
+* [`serverspec`](https://github.com/mizzy/serverspec) (&gt;= 2.0.0) for functional tests.
 
 
 ## Using catalog spec termini
@@ -163,6 +163,9 @@ Sample output:
     
     rspec /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:2 # augeas 
     rspec /var/lib/puppet/lib/spec/server/class/foo.example.com/package_spec.rb:6 # /usr/share/augeas/lenses/dist 
+
+
+This indirector will automatically generate serverspec tests from the catalog for known resource types, making the catalog self-asserting.
 
 
 ## Using the MCollective agent
