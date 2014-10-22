@@ -7,27 +7,6 @@
   "summary": "Extend Puppet with RSpec and Serverspec",
   "description": "Evaluate assertions during a Puppet run",
   "project_page": "https://github.com/raphink/puppet-spec",
-  "dependencies": [
-
-  ],
-  "types": [
-
-  ],
-  "checksums": {
-    "Gemfile": "ac63dba01d472a755e3f7a752a420aa1",
-    "README.md": "da03a960ad93a3a567969dc79394a656",
-    "Rakefile": "f53705b9a44b3e8c247b3f5c7a429446",
-    "examples/spec/catalog/class/example.com/fail_spec.rb": "8c15abbaeadf4c7bd2138ebb575f718f",
-    "examples/spec/catalog/class/puppet/notrun_spec.rb": "bdbccfd0d31c457cc13bb74caa416080",
-    "examples/spec/catalog/class/puppet__client__base/puppet_package_spec.rb": "924aeb568d8027ddfe1451c5d45d19a4",
-    "files/mcollective/agent/spec.ddl": "2048e9dacf6f435c09981c7415d0cae4",
-    "files/mcollective/agent/spec.rb": "7eb44ff6f50035dc90c05b375daa655b",
-    "lib/puppet/indirector/catalog/compiler_spec.rb": "98dcb1a11c6f445cf275cbb22d9d20ff",
-    "lib/puppet/indirector/catalog/rest_spec.rb": "46c82deb811d05701e109007d10e0a45",
-    "lib/puppet/indirector/report/rest_spec.rb": "7c75ecff3fa685b301d92a4b3a582839",
-    "lib/spec/catalog.rb": "8b4eea029888e61d2c6b0ab9b53b48c4",
-    "manifests/serverspec.pp": "910a42b61a1932fa6587c0c75b829c44",
-    "spec/spec_helper.rb": "9ccc829f2781c8fe6b7e2d7edd6eabaa",
-    "tests/init.pp": "5d833822f5f9d603bcc97fee925a62f8"
-  }
+  "tags": ["testing", "rspec", "serverspec", "mcollective", "policy", "report", "catalog"],
+  "dependencies": [],
 }
