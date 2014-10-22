@@ -83,6 +83,21 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
       content
     end
 
+    auto_spec 'User' do |u|
+      content = "  describe user('#{u[:name]}') do\n"
+      content += "    it { should exist }\n" if u[:ensure] == 'present'
+      content += "    it { should_not exist }\n" if u[:ensure] == 'absent'
+      content += "    it { should have_uid('#{u[:uid]}') }\n" if u[:uid]
+      content += "    it { should belong_to_group('#{u[:gid]}') }\n" if u[:gid]
+      (u[:groups] || []).any? do |g|
+        content += "    it { should belong_to_group('#{g}') }\n"
+      end
+      content += "    it { should have_home_directory('#{u[:home]}') }\n" if u[:home]
+      content += "    it { should have_login_shell('#{u[:shell]}') }\n" if u[:shell]
+      content += "  end\n"
+      content
+    end
+
     # Generate serverspec files
     gen_auto_spec_files(resources, spec_dir)
 
@@ -93,6 +108,7 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
     RSpec.configure do |c|
       c.backend = :exec
     end
+
     out = StringIO.new                                       
     if RSpec::Core::Runner::run([spec_dir], $stderr, out) == 0
       request.instance << Puppet::Util::Log.new(
