@@ -1,5 +1,8 @@
 # Spec module for Puppet
 
+[![Puppet Forge](http://img.shields.io/puppetforge/v/raphink/spec.svg)](https://forge.puppetlabs.com/raphink/spec)
+
+
 **Evaluate assertions during a Puppet run**
 
 
