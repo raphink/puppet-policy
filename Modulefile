@@ -1,8 +1,0 @@
-name         'camptocamp-spec'
-version      '0.1.0'
-source       'https://github.com/camptocamp/puppet-spec'
-author       'DevOps Team / Camptocamp'
-license      'GNU GPLv3'
-summary      'Camptocamp Spec Module'
-description  'Evaluate assertions during a Puppet run'
-project_page 'https://github.com/camptocamp/puppet-spec'
