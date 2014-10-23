@@ -5,9 +5,10 @@ class policy (
   # $settings::vardir returns the MASTER's :vardir, not the agent's
   # We might have to deploy a fact to get the client's :vardir,
   # or write a type/provider
-  $serverspec_dir = "${settings::vardir}/policy/server",
+  $spec_dir = "${settings::vardir}/policy",
+  $serverspec_dir = "${spec_dir}/server",
 ) {
-  file { $serverspec_dir:
+  file { [$spec_dir, $serverspec_dir]:
     ensure => 'directory',
     purge  => 'true',
   }
