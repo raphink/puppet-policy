@@ -1,3 +1,9 @@
+## 0.4.0
+### Changes
+
+* Renamed module as puppet-policy
+* Fixed paths in MCollective agent
+
 ## 0.3.0
 ### Changes
 
