@@ -1,6 +1,8 @@
 # Policy module for Puppet
 
 [![Puppet Forge](http://img.shields.io/puppetforge/v/raphink/policy.svg)](https://forge.puppetlabs.com/raphink/policy)
+[![Build Status](https://travis-ci.org/raphink/puppet-policy.svg?branch=master)](https://travis-ci.org/raphink/puppet-policy)
+[![Coverage Status](https://img.shields.io/coveralls/raphink/puppet-policy.svg)](https://coveralls.io/r/raphink/puppet-policy)
 
 
 **Your Policy Driven Infrastructure Starter Kit**
