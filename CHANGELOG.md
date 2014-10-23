@@ -1,3 +1,8 @@
+## 0.4.1
+### Changes
+
+* Create the two levels of directories required for specs
+
 ## 0.4.0
 ### Changes
 
