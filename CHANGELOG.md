@@ -1,3 +1,8 @@
+## 0.5.0
+### Changes
+
+* Make auto_spec pluggable
+
 ## 0.4.2
 ### Changes
 
