@@ -190,6 +190,15 @@ Puppetx::Policy::AutoSpec.newspec 'Package' do |p|
 end
 ```
 
+It also works with defined resource types:
+
+```ruby
+Puppetx::Policy::AutoSpec.newspec 'Apache::Vhost' do |v|
+  should = (p[:ensure] == 'absent') ? 'should_not' : 'should'
+  "  describe port('#{v[:port]}') do\n     it { #{should} be_listening }\n  end\n" if v[:port]
+end
+```
+
 
 ## Using the MCollective agent
 
