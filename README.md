@@ -173,6 +173,23 @@ Sample output:
     rspec /var/lib/puppet/policy/server/package_spec.rb:6 # /usr/share/augeas/lenses/dist 
 
 
+### Writing new automatic serverspec plugins
+
+The `rest_spec` report terminus automatically generates serverspec test files from the Puppet catalog, by mapping Puppet resources to Serverspec resources.
+
+New plugins need to be distributed using `pluginsync`. They should be placed in the `lib/puppetx/policy/auto_spec` directory.
+
+Here is an example:
+
+```ruby
+# Declare a new auto_spec for the 'Package' Puppet type (capitalization required)
+Puppetx::Policy::AutoSpec.newspec 'Package' do |p|
+  should = (p[:ensure] == 'absent' or p[:ensure] == 'purged') ? 'should_not' : 'should'
+  # Return a string with the content of the test, for each resource
+  "  describe package('#{p[:name]}') do\n    it { #{should} be_installed }\n  end\n"
+end
+```
+
 
 ## Using the MCollective agent
 
