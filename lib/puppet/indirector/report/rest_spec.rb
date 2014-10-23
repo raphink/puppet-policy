@@ -26,12 +26,14 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
     # Load plugins dynamically
     autoloader = Puppet::Util::Autoload.new(self, "puppetx/policy/auto_spec", :wrap => false)
     autoloader.loadall
+    Puppet.debug('Loaded auto_spec plugins')
 
     # Generate serverspec files
     # TODO: Check that we get the catalog from cache
     resources = Puppet::Resource::Catalog.indirection.find(request.instance.host).resources
     spec_dir = File.join(Puppet[:vardir], 'policy', 'server')
     Puppetx::Policy::AutoSpec.gen_auto_spec_files(resources, spec_dir)
+    Puppet.debug('Generated auto_spec files')
 
     # Extend report
     request.instance.extend(PuppetSpecReport)
@@ -41,7 +43,8 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
       c.backend = :exec
     end
 
-    out = StringIO.new                                       
+    out = StringIO.new
+    Puppet.debug('Launching serverspec tests')
     if RSpec::Core::Runner::run([spec_dir], $stderr, out) == 0
       request.instance << Puppet::Util::Log.new(
         :message => out.string,
