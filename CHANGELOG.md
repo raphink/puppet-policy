@@ -1,3 +1,8 @@
+## 0.5.3
+### Changes
+
+* Improve documentation on auto_spec plugins
+
 ## 0.5.2
 ### Changes
 
