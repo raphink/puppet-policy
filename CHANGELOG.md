@@ -1,3 +1,11 @@
+## 0.5.2
+### Changes
+
+* Fix User plugin when user is absenttype, block|
+* Allow several auto_spec plugins for the same resource type
+* Add some debug
+* Fix spec MCollective agent when calling RSpec.configure
+
 ## 0.5.1
 ### Changes
 
