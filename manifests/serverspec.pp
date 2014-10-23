@@ -41,7 +41,9 @@ define policy::serverspec (
     fail 'You must provide $content or $source'
   }
   $_filename = $filename ? {
+    # lint:ignore:double_quoted_strings
     ''      => regsubst($name, "\W", '_', 'G'),
+    # lint:endignore
     default => $filename,
   }
 
