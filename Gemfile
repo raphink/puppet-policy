@@ -11,3 +11,6 @@ gem 'puppet-lint'
 gem 'rspec-puppet'
 gem 'puppet', puppetversion
 gem 'puppetlabs_spec_helper', '>= 0.4.0'
+
+gem 'simplecov', '~> 0.7.0'
+gem 'coveralls' unless RUBY_VERSION =~ /^1\.8/
