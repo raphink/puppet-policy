@@ -1,6 +1,6 @@
-# Definition: spec::serverspec
+# Definition: policy::serverspec
 #
-# Deploy an rspec file to :vardir/spec/server
+# Deploy an rspec file to :vardir/policy/server
 #
 # Parameters:
 #   ['ensure']    - Whether the test should be present or absent
@@ -11,11 +11,11 @@
 #   ['source']    - Source of the test file (unless content is specified)
 #
 # Actions:
-# - Deploys an serverspec test file to :vardir/spec/server/class
+# - Deploys an serverspec test file to :vardir/policy/server
 #
 # Sample Usage:
 #
-#   spec::serverspec { 'check ssh service':
+#   policy::serverspec { 'check ssh service':
 #     ensure    => present,
 #     classname => 'ssh',
 #     content   => 'describe "ssh" do
@@ -25,14 +25,14 @@
 #   end',
 #   }
 #
-define spec::serverspec (
+define policy::serverspec (
   $ensure = 'present',
   $filename = '',
   $classname = $fqdn,
   $content = undef,
   $source = undef,
 ) {
-  require ::spec
+  include ::policy
 
   if ($content and $source) {
     fail 'You must provide either $content or $source, not both'
@@ -45,7 +45,7 @@ define spec::serverspec (
     default => $filename,
   }
 
-  file { "${::spec::serverspec_dir}/${_filename}_spec.rb":
+  file { "${::policy::serverspec_dir}/${_filename}_spec.rb":
     ensure  => $ensure,
     content => $content,
     source  => $source,

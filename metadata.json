@@ -1,12 +1,12 @@
 {
-  "name": "raphink-spec",
+  "name": "raphink-policy",
   "version": "0.3.0",
-  "source": "https://github.com/raphink/puppet-spec",
+  "source": "https://github.com/raphink/puppet-policy",
   "author": "Raphael Pinson",
   "license": "GNU GPLv3",
-  "summary": "Extend Puppet with RSpec and Serverspec",
-  "description": "Evaluate assertions during a Puppet run",
-  "project_page": "https://github.com/raphink/puppet-spec",
+  "summary": "Your Policy Driven Infrastructure Starter Kit",
+  "description": "Extends Puppet with RSpec and Serverspec for policy checks",
+  "project_page": "https://github.com/raphink/puppet-policy",
   "tags": ["testing", "rspec", "serverspec", "mcollective", "policy", "report", "catalog"],
   "dependencies": []
 }

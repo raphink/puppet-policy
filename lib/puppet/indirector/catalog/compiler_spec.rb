@@ -18,7 +18,7 @@ class Puppet::Resource::Catalog::CompilerSpec < Puppet::Resource::Catalog::Compi
     node = node_from_request(request)
     manifestdir = Puppet.settings.value(:manifestdir, node.environment)
     # We put specs in the parent directory of :manifestdir
-    spec_dir = File.join(manifestdir, '..', 'spec/catalog')
+    spec_dir = File.join(manifestdir, '..', 'policy/catalog')
 
     RSpec::configure do |c|
        c.include(RSpec::Puppet::ManifestMatchers)
@@ -34,7 +34,7 @@ class Puppet::Resource::Catalog::CompilerSpec < Puppet::Resource::Catalog::Compi
     end
     # Use something else than stdout/stderr to get reports?
     out = StringIO.new
-    unless RSpec::Core::Runner::run(["-r#{Puppet.settings[:libdir]}/spec/catalog", spec_dirs], $stderr, out) == 0
+    unless RSpec::Core::Runner::run(["-r#{Puppet.settings[:libdir]}/policy/catalog", spec_dirs], $stderr, out) == 0
       raise Puppet::Error, "Unit tests failed:\n#{out.string}"
     end
     catalog

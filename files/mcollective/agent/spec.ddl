@@ -2,7 +2,7 @@ metadata :name => "RSpec tests",
          :description => "RSpec tests",
          :author => "Raphaël Pinson",
          :license => "GPLv3",
-         :version => "0.1",
+         :version => "0.2",
          :url => "",
          :timeout => 60
 
@@ -30,7 +30,7 @@ action 'check', :description => "Run a check with the serverspec library" do
            :display_as => "Passed"
 end
 
-action 'run', :description => "Run Puppet-spec tests" do
+action 'run', :description => "Run Puppet-policy tests" do
     display :always
 
     output :passed,

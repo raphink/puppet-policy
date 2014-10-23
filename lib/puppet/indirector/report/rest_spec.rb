@@ -97,7 +97,7 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
     # Generate serverspec files
     # TODO: Check that we get the catalog from cache
     resources = Puppet::Resource::Catalog.indirection.find(request.instance.host).resources
-    spec_dir = File.join(Puppet[:vardir], 'spec', 'server')
+    spec_dir = File.join(Puppet[:vardir], 'policy', 'server')
     gen_auto_spec_files(resources, spec_dir)
 
     # Extend report
