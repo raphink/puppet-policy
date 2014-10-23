@@ -1,3 +1,8 @@
+## 0.4.2
+### Changes
+
+* Fix serverspec parameter in policy class
+
 ## 0.4.1
 ### Changes
 
