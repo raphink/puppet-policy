@@ -6,7 +6,7 @@ class policy (
   # We might have to deploy a fact to get the client's :vardir,
   # or write a type/provider
   $spec_dir = "${settings::vardir}/policy",
-  $serverspec_dir = "${spec_dir}/server",
+  $serverspec_dir = "${settings::vardir}/policy/server",
 ) {
   file { [$spec_dir, $serverspec_dir]:
     ensure => 'directory',
