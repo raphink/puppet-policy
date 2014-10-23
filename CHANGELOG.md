@@ -1,3 +1,10 @@
+## 0.6.0
+### Changes
+
+* Add Group auto_spec plugin
+* Add Host auto_spec plugin
+* Add basic unit tests and coverage for auto_spec plugins
+
 ## 0.5.3
 ### Changes
 

@@ -1,6 +1,6 @@
 {
   "name": "raphink-policy",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "source": "https://github.com/raphink/puppet-policy",
   "author": "Raphael Pinson",
   "license": "GNU GPLv3",
