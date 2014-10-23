@@ -1,11 +1,11 @@
-require 'serverspec'
-
 module MCollective
   module Agent
     class Spec < RPC::Agent
       action 'check' do
         begin
           require 'facter'
+          require 'rspec'
+          require 'serverspec'
         rescue Exception => e
           reply.fail! e.to_s
         end
@@ -27,13 +27,19 @@ module MCollective
         begin
           require 'facter'
           require 'rspec'
+          require 'serverspec'
           require 'puppet'
 
         rescue Exception => e
           reply.fail! e.to_s
         end
 
-        spec_dir = File.join(Puppet[:vardir], 'policy', 'server')
+        spec_dir = File.join(::Puppet.settings[:vardir], 'policy', 'server')
+
+        # Specinfra gets its default configuration from RSpec
+        RSpec.configure do |c|
+          c.backend = :exec
+        end
 
         out = StringIO.new                                       
         if RSpec::Core::Runner::run([spec_dir], $stderr, out) == 0
