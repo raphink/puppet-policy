@@ -1,4 +1,8 @@
 module Puppetx::Policy::AutoSpec
+  def self.auto_specs
+    @auto_specs
+  end
+
   def self.newspec(type, &block)
     Puppet.debug("Add new auto_spec plugin for type '#{type}'")
     @auto_specs ||= []
@@ -6,7 +10,7 @@ module Puppetx::Policy::AutoSpec
   end
 
   def self.gen_auto_spec_files(resources, spec_dir)
-    @auto_specs.each do |spec|
+    auto_specs.each do |spec|
       Puppet.debug("Executing auto_spec plugin for type '#{spec[:type]}'")
       spec_content = "describe '#{spec[:type]} resources' do\n"
       spec_content += resources.map do |r|
