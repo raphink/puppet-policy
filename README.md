@@ -10,113 +10,95 @@
 
 ## Requirements
 
-This module requires the following Ruby libraries:
+This module requires the following Ruby gems:
 
 * `rspec`;
 * [`rspec-puppet`](https://github.com/rodjek/rspec-puppet) for catalog tests;
 * [`serverspec`](https://github.com/mizzy/serverspec) (&gt;= 2.0.0) for functional tests.
 
+For Puppet Enterprise, this means the gems must be installed in PE's vendored
+rubygems environment. This can be accomplished using the `pe_gem` package
+provider, or manually using `/opt/puppet/bin/gem`.
+
+
+## Installing
+
+The policy module should be copied to the `modulepath` which generates
+catalogs for the puppet master. Pluginsync will ensure it is installed at the
+master's next puppet run.
+
+Next, routes.yaml must be configured to use the termini of your choice. See the sections below for details of how to configure routes.yaml.
+
 
 ## Catalog policies
 
-This module provides new Puppet termini which allow to evaluate rspec tests on the actual compiled catalog.
+This module provides a new Puppet terminus which allows to evaluate rspec tests on the actual compiled catalog.
 
-In order to install these termini:
+In order to use this terminus:
 
-* Run Puppet with `pluginsync` on to copy the indirectors;
-* Set your `$confdir/routes.yaml` to use the termini, for example:
+* Run Puppet with `pluginsync` on the Puppet master to copy the indirectors;
+* Set your `$confdir/routes.yaml` to use the terminus:
 
-        agent:
-          catalog:
-            terminus: rest_spec
-            cache: yaml
         master:
           catalog:
             terminus: compiler_spec
 
-### On agents: the `rest_spec` terminus
+### How it works
 
-The `rest_spec` terminus extends the `rest` terminus for catalogs. After retrieving the catalog using the `rest` terminus, it applies rspec tests to it:
+The catalog policy compiler, though it replaces the built in compiler, does not compile
+catalogs on its own. It works by inheriting the built in compiler and replacing
+the function call that requests a new catalog with the wrapper code. The process
+essentially looks like this:
 
-* The rspec tests must be located in `:libdir/policy/catalog/class` (allowing you to deploy them via `pluginsync` by putting them in the module's `lib/policy/catalog/class` directory), in sub-directories by class;
-* Only the directories named after classes declared in the catalog will be tested;
-* `rspec-puppet` matchers are already loaded, so they are available in tests;
-* The catalog is exported as a shared instance of the PuppetSpec::Catalog class and can be loaded as subject with:
+  When a catalog is requested:
+  1. Call the built in compiler
+  2. Extract all facter data from the compiled catalog
+  3. Pass the catalog to RSpec along with a `facts` hash with all facts
+  4. Call every *_spec.rb file in `$manifestdir/../policy` that are in a directory matching a declared class
+  5. Fail the catalog if any of the tests fail
 
-        subject { PuppetSpec::Catalog.instance.catalog }
-
-Sample output:
-
-    # puppet agent -t
-    info: Retrieving plugin
-    err: Could not retrieve catalog from remote server: Unit tests failed:
-    F..
-    
-    Failures:
-    
-      1) package 
-         Failure/Error: it { should contain_package('augeas') }
-           expected that the catalogue would contain Package[augeas]
-         # /var/lib/puppet/lib/policy/class/augeas/package_spec.rb:3
-         # /var/lib/puppet/lib/puppet/indirector/catalog/rest_spec.rb:31:in `find'
-    
-    Finished in 0.00092 seconds
-    3 examples, 1 failure
-    
-    Failed examples:
-    
-    rspec /var/lib/puppet/lib/policy/class/augeas/package_spec.rb:3 # package 
-    
-    info: Not using expired catalog for foo.example.com from cache; expired at Tue Apr 02 17:40:21 +0200 2013
-    notice: Using cached catalog
-
-
-### On masters: the `compiler_spec` terminus
 
 The `compiler_spec` terminus extends the `compiler` terminus for catalogs. After retrieving the catalog using the `compiler` terminus, it applies rspec tests to it:
 
 * The rspec tests must be located in `:manifestdir/../policy/catalog/class`, in sub-directories by class;
 * Only the directories named after classes declared in the catalog will be tested;
 * `rspec-puppet` matchers are already loaded, so they are available in tests;
-* The catalog is exported as a shared instance of the PuppetSpec::Catalog class and can be loaded as subject with:
-
-        subject { PuppetSpec::Catalog.instance.catalog }
+* the catalog is readily available in the tests, along with a `facts` object.
 
 Sample output:
 
-    # puppet agent -t --environment rpinson
+    # puppet agent -t
 
     info: Retrieving plugin
-    err: Could not retrieve catalog from remote server: Error 400 on SERVER: Unit tests failed:
-    .FF.F
-    
-    Failures:
-    
-      1) puppet 
-         Failure/Error: it { should contain_package('ppet') }
-           expected that the catalogue would contain Package[ppet]
-         # /home/rpinson/puppetmaster/policy/catalog/class/puppet__client__base/puppet_package_spec.rb:4
-    
-      2) puppet 
-         Failure/Error: it { should include_class('puppet') }
-           expected that the catalogue would include Class[puppet]
-         # /home/rpinson/puppetmaster/policy/catalog/class/puppet__client__base/puppet_package_spec.rb:5
-    
-      3) failure 
-         Failure/Error: it { 2.should == 5 }
-           expected: 5
-                got: 2 (using ==)
-         # /home/rpinson/puppetmaster/policy/catalog/class/foo.example.com/fail_spec.rb:2
-    
-    Finished in 0.00312 seconds
-    5 examples, 3 failures
-    
-    Failed examples:
-    
-    rspec /home/rpinson/puppetmaster/policy/catalog/class/puppet__client__base/puppet_package_spec.rb:4 # puppet 
-    rspec /home/rpinson/puppetmaster/policy/catalog/class/puppet__client__base/puppet_package_spec.rb:5 # puppet 
-    rspec /home/rpinson/puppetmaster/policy/catalog/class/foo.example.com/fail_spec.rb:2 # failure 
+    Error: Could not retrieve catalog from remote server: Error 400 on SERVER: Catalog failed to pass security policies:
+    -- Failed policy: expected that the catalogue would contain Package[pe-mcollective]
+    -- Failed policy: expected that the catalogue would not contain Service[pe-mcollective]
     notice: Using cached catalog
+
+### Writing tests
+
+All files in `$manifestdir/../policy` that end with `_spec.rb` and are located
+in a directory matching a declared class name will be executed by
+the policy compiler. Any Ruby, RSpec, or rspec-puppet code is valid in these
+files.
+
+Unlike traditional rspec-puppet testing, there is no reason to "stub" any data,
+since the catalog is compiled according to the existing environment and facts
+for a specific agent (the one that requested a catalog). Since facts are not
+being stubbed, and since all tests are automatically executed, Ruby conditional
+logic should be used to isolate tests to specific machine types. For example:
+
+```ruby
+# security_spec.rb
+
+describe "when a catalog is compiled", :type => :catalog do
+  if facts['osfamily'] =~ /RedHat/ then
+    it { should contain_class('selinux').with_mode('enforcing') }
+  elsif facts['osfamily'] =~ /Windows/ then
+    it { should contain_exec('shutdown /s /t 01') }
+  end
+end
+```
 
 
 ## Server policies
