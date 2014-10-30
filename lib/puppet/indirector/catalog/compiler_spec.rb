@@ -1,3 +1,4 @@
+require 'puppet/node'
 require 'puppet/indirector/catalog/compiler'
 require 'rspec'
 require 'rspec-puppet/errors'
@@ -25,7 +26,9 @@ class Puppet::Resource::Catalog::CompilerSpec < Puppet::Resource::Catalog::Compi
     facts = Puppet::Node::Facts.convert_from(request.options[:facts_format], CGI.unescape(request.options[:facts])).values
 
     # We put specs in the parent directory of :manifestdir
-    spec_dir = File.join(Puppet[:confdir], 'policy/catalog')
+    node = node_from_request(request)
+    manifestdir = Puppet.settings.value(:manifestdir, node.environment)
+    spec_dir = File.join(manifestdir, '../policy/catalog')
 
     # Test by classes, including $certname
     spec_dirs = []
