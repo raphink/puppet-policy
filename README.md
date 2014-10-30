@@ -42,6 +42,7 @@ In order to use this terminus:
         master:
           catalog:
             terminus: compiler_spec
+* Restart your Puppet master process
 
 ### How it works
 
