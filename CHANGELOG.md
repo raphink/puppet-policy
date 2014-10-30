@@ -1,3 +1,9 @@
+## 0.7.0
+### Changes
+
+* Merged code from puppet-policy_compiler (thanks to Hunger Haugen)
+* Remove agent-side catalog terminus
+
 ## 0.6.0
 ### Changes
 
