@@ -1,3 +1,9 @@
+## 0.7.4
+### Changes
+
+* MCollective agent: add type parameter for specinfra compat
+* Initalize Puppet settings
+
 ## 0.7.3
 ### Changes
 
