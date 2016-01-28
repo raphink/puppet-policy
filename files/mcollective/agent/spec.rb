@@ -36,6 +36,7 @@ module MCollective
           reply.fail! e.to_s
         end
 
+        ::Puppet.initialize_settings
         spec_dir = File.join(::Puppet.settings[:vardir], 'policy', 'server')
 
         # Specinfra gets its default configuration from RSpec
