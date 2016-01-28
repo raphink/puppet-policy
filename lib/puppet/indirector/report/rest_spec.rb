@@ -7,6 +7,7 @@ require 'rspec'
 require 'serverspec' 
 require 'stringio'
 require 'facter' 
+require 'fileutils'
 
 
 module PuppetSpecReport
@@ -32,6 +33,7 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
     # TODO: Check that we get the catalog from cache
     resources = Puppet::Resource::Catalog.indirection.find(request.instance.host).resources
     spec_dir = File.join(Puppet[:vardir], 'policy', 'server')
+    FileUtils.mkdir_p(spec_dir)
     Puppetx::Policy::AutoSpec.gen_auto_spec_files(resources, spec_dir)
     Puppet.debug('Generated auto_spec files')
 
