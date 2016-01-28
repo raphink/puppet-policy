@@ -6,6 +6,7 @@ module MCollective
           require 'facter'
           require 'rspec'
           require 'serverspec'
+          require 'specinfra'
         rescue Exception => e
           reply.fail! e.to_s
         end
@@ -16,7 +17,8 @@ module MCollective
         end
 
         values = request[:values].split(",").map { |v| v == 'nil' ? nil : v }
-        if backend.send("check_#{request[:action]}", *values)
+        runner = Specinfra::Runner
+        if runner.send("check_#{request[:type]}_#{request[:action]}", *values)
           reply[:passed] = true
         else
           reply[:passed] = false

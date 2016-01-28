@@ -213,14 +213,22 @@ This module provides an MCollective agent in `files/mcollective/agent`. This age
     
            INPUT:
                action:
-                  Description: 
+                  Description:
                        Prompt: Action to check
                          Type: string
                    Validation: ^\S+$
                        Length: 50
+
+               type:
+                  Description:
+                       Prompt: Type of resource
+                         Type: string
+                     Optional: false
+                   Validation: ^\S+$
+                       Length: 50
     
                values:
-                  Description: 
+                  Description:
                        Prompt: Values to check
                          Type: string
                    Validation: ^\S+$
@@ -251,7 +259,7 @@ This module provides an MCollective agent in `files/mcollective/agent`. This age
 
 Using the `check` action:
 
-    $ mco rpc spec check action=running values=ssh
+    $ mco rpc spec check type=service action=running values=ssh
     Discovering hosts using the mc method for 2 second(s) .... 1
     
      * [ ============================================================> ] 1 / 1

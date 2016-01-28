@@ -9,6 +9,14 @@ metadata :name => "RSpec tests",
 action 'check', :description => "Run a check with the serverspec library" do
     display :always
 
+    input :type,
+          :prompt => "Type of resource",
+          :description => "",
+          :type => :string,
+          :validation => '^\S+$',
+          :optional => false,
+          :maxlength => 50
+
     input :action,
           :prompt => "Action to check",
           :description => "",
