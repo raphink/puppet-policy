@@ -1,3 +1,8 @@
+## 0.7.2
+### Changes
+
+* Do not use the wrap parameter
+
 ## 0.7.1
 ### Changes
 
