@@ -1,3 +1,8 @@
+## 0.7.3
+### Changes
+
+* Fix provider test in package auto_spec
+
 ## 0.7.2
 ### Changes
 
