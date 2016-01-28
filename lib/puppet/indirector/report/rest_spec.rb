@@ -25,7 +25,7 @@ class Puppet::Transaction::Report::RestSpec < Puppet::Transaction::Report::Rest
 
   def save(request)
     # Load plugins dynamically
-    autoloader = Puppet::Util::Autoload.new(self, "puppetx/policy/auto_spec", :wrap => false)
+    autoloader = Puppet::Util::Autoload.new(self, "puppetx/policy/auto_spec")
     autoloader.loadall
     Puppet.debug('Loaded auto_spec plugins')
 
