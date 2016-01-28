@@ -1,3 +1,8 @@
+## 0.7.1
+### Changes
+
+* Make sure spec_dir exists
+
 ## 0.7.0
 ### Changes
 
